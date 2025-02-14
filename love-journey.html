@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Love Journey</title>
+    <style>
+        body {
+            background-color: black;
+            color: #fddde6; /* Light pink color */
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            transition: transform 1s ease-out;
+            overflow: hidden;
+            cursor: url('http://www.rw-designer.com/cursor-view/184812.png'), auto;
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            max-width: 600px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .message {
+            font-size: 1.8em;
+            opacity: 0;
+            margin-bottom: 30px;
+        }
+
+        .fade-in {
+            opacity: 0;
+            animation: fadeIn 2s forwards;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        /* Slide transition */
+        .slide-up {
+            animation: slideUp 1s forwards;
+        }
+
+        @keyframes slideUp {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-100vh); }
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Background Music -->
+    <audio id="mySong" loop autoplay>
+        <source src="music/mysong.mp3" type="audio/mp3">
+    </audio>    
+
+    <script>
+        document.getElementById('mySong').volume = 0.2;
+    </script>
+
+    <div class="container">
+        <!-- Main message that appears first -->
+        <div id="firstMessage" class="message fade-in">That was a little game before the real one here, hehe. Happy Valentine's Day, My Dearest.💗</div>
+    </div>
+
+    <script>
+        const messages = [
+            "💘Every day with you feels like Valentine’s Day, but today, I get to remind you even more how much I love you.",
+            "💞You are my favorite person, my safe place, and the best decision my heart ever made.",
+            "💓Loving you is my favorite part of life. No matter where we go or what we do, I’m happiest when I’m with you.",
+            "Now, let's step into our Starry Night. ✨"
+        ];
+
+        let index = 0;
+        const container = document.querySelector(".container");
+
+        function showMessage() {
+            if (index < messages.length) {
+                const messageDiv = document.createElement("div");
+                messageDiv.classList.add("message", "fade-in");
+                messageDiv.innerHTML = messages[index];
+                container.appendChild(messageDiv);
+                index++;
+                setTimeout(showMessage, 2000);  // Delay each message by 2s
+            }
+        }
+
+        // Start showing messages after the first one is fully visible
+        setTimeout(showMessage, 2500);
+
+        // Detect swipe up to change the page
+        let touchStartY = 0;
+        let touchEndY = 0;
+
+        document.addEventListener("touchstart", function(event) {
+            touchStartY = event.touches[0].clientY;
+        });
+
+        document.addEventListener("touchend", function(event) {
+            touchEndY = event.changedTouches[0].clientY;
+
+            // If swipe up detected, transition to next page
+            if (touchStartY - touchEndY > 100) { 
+                document.body.classList.add("slide-up");
+                setTimeout(() => {
+                    window.location.href = "starry-night.html";
+                }, 1000);
+            }
+        });
+
+        // Also allow mouse wheel scrolling to trigger transition
+        document.addEventListener("wheel", function(event) {
+            if (event.deltaY > 0) { // Detect scroll down
+                document.body.classList.add("slide-up");
+                setTimeout(() => {
+                    window.location.href = "starry-night.html";
+                }, 1000);
+            }
+        });
+    </script>
+</body>
+</html>

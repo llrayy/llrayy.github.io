@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine Ask-Answer Game</title>
+    <style>
+        body {
+            background-color: #fddde6; /* Soft pink background */
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            animation: smoothBg 3s ease-in-out infinite;
+        }
+        
+        @keyframes smoothBg {
+            0% { background-color: #fddde6; }
+            50% { background-color: #f3c8dd; }
+            100% { background-color: #fddde6; }
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            position: absolute;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            animation: fadeIn 2s forwards;
+        }
+
+        .game-container {
+            text-align: center;
+            position: relative;
+            margin-top: 100px;
+        }
+
+        .avatar img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+        }
+
+        .question-container {
+            margin-top: 30px;
+            opacity: 0;
+            animation: fadeIn 2s forwards 2s;
+        }
+
+        .answer-btn {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            border: none;
+            background-color: #ffb6c1;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .answer-btn:hover {
+            background-color: #ff8a9d;
+        }
+
+        .result-message {
+            margin-top: 20px;
+            font-size: 1.5em;
+            color: #d96b8c;
+            font-weight: bold;
+        }
+
+        .start-btn {
+            margin-top: 20px;
+            padding: 12px 30px;
+            font-size: 1.2em;
+            background-color: #ffb6c1;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            display: inline-block;
+            opacity: 0;
+            animation: fadeIn 2s forwards 4s;
+        }
+
+        .start-btn:hover {
+            background-color: #ff8a9d;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes fadeOut {
+            0% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Fun Facts You Know About Me</h1>
+    <div class="game-container">
+        <div class="avatar">
+            <img src="/Picture/ray.jpg" alt="Your Face">
+        </div>
+
+        <div class="question-container">
+            <p id="question">Are you ready to play?</p>
+            <button class="start-btn" onclick="startGame()">OK</button>
+        </div>
+
+        <div class="question-container" id="gameQuestions" style="display: none;">
+            <p id="questionText">First question</p>
+            <button class="answer-btn" onclick="checkAnswer('A')">A) Option 1</button>
+            <button class="answer-btn" onclick="checkAnswer('B')">B) Option 2</button>
+            <button class="answer-btn" onclick="checkAnswer('C')">C) Option 3</button>
+        </div>
+
+        <div class="result-message" id="resultMessage"></div>
+    </div>
+
+    <script>
+        let currentQuestion = 0;
+        const questions = [
+            {
+                question: "What is my favorite color?",
+                answers: ['A) Pink', 'B) Blue', 'C) Red'],
+                correctAnswer: 'A',
+                correctMessage: "Correct! My favorite color is Pink. You're amazing!"
+            },
+            {
+                question: "What is my favorite food?",
+                answers: ['A) Pizza', 'B) Sushi', 'C) Chocolate'],
+                correctAnswer: 'C',
+                correctMessage: "Correct! You know me so well, I love Chocolate!"
+            },
+            {
+                question: "What is my dream vacation spot?",
+                answers: ['A) Paris', 'B) Maldives', 'C) Japan'],
+                correctAnswer: 'B',
+                correctMessage: "Correct! Maldives is my dream spot. You got it!"
+            }
+        ];
+
+        function startGame() {
+            document.querySelector('.question-container').style.display = 'none';
+            document.getElementById('gameQuestions').style.display = 'block';
+            nextQuestion();
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < questions.length) {
+                const question = questions[currentQuestion];
+                document.getElementById('questionText').innerText = question.question;
+                const buttons = document.querySelectorAll('.answer-btn');
+                buttons[0].innerText = question.answers[0];
+                buttons[1].innerText = question.answers[1];
+                buttons[2].innerText = question.answers[2];
+                document.getElementById('resultMessage').innerText = '';
+            } else {
+                smoothTransition();
+            }
+        }
+
+        function checkAnswer(answer) {
+            const correctAnswer = questions[currentQuestion].correctAnswer;
+            const resultMessage = document.getElementById('resultMessage');
+
+            if (answer === correctAnswer) {
+                resultMessage.innerText = questions[currentQuestion].correctMessage;
+                resultMessage.style.color = 'green';
+                setTimeout(() => {
+                    currentQuestion++; // Increment only after correct answer
+                    nextQuestion();
+                }, 2000);
+            } else {
+                resultMessage.innerText = "Oops, that's not quite right! Try again!";
+                resultMessage.style.color = 'red';
+            }
+        }
+
+        function smoothTransition() {
+            document.body.style.animation = "fadeOut 1s forwards";
+            setTimeout(() => {
+                window.location.href = "love-journey.html";
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
